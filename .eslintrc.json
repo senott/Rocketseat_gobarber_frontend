@@ -48,7 +48,8 @@
         "tsx": "never"
       }
     ],
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "@typescript-eslint/indent": "off",
   },
   "settings": {
     "import/resolver": {
