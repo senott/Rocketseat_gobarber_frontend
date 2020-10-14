@@ -19,6 +19,8 @@ interface ProfileFormData {
   name: string;
   email: string;
   password: string;
+  current_password: string;
+  password_confirmation: string;
 }
 
 const Profile: React.FC = () => {
@@ -38,19 +40,47 @@ const Profile: React.FC = () => {
           email: Yup.string()
             .required('E-mail obrigatório')
             .email('Digite um e-mail válido'),
-          password: Yup.string().min(6, 'No mínimo 6 dígitos'),
+          current_password: Yup.string(),
+          password: Yup.string().when('current_password', {
+            is: val => !!val.length,
+            then: Yup.string().min(6, 'No mínimo 6 dígitos'),
+            otherwise: Yup.string().min(0),
+          }),
+          password_confirmation: Yup.string().oneOf(
+            [Yup.ref('password')],
+            'Senhas digitadas não são iguais.',
+          ),
         });
 
         await schema.validate(data, { abortEarly: false });
 
-        await api.post('/users', data);
+        const {
+          name,
+          email,
+          current_password,
+          password,
+          password_confirmation,
+        } = data;
 
-        history.push('/');
+        const formData = {
+          name,
+          email,
+          ...(current_password
+            ? { current_password, password, password_confirmation }
+            : {}),
+        };
+
+        const response = await api.put('/profile', formData);
+
+        console.log(response.data.user);
+
+        updateUser(response.data.user);
+
+        history.push('/dashboard');
 
         addToast({
           type: 'success',
-          title: 'Usuário cadastrado com sucesso',
-          description: 'Você já pode fazer o seu login na aplicação.',
+          title: 'Perfil atualizado com sucesso!',
         });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -63,13 +93,13 @@ const Profile: React.FC = () => {
 
         addToast({
           type: 'error',
-          title: 'Erro no cadastro',
+          title: 'Erro na atualização',
           description:
-            'Ocorreu um erro ao cadastrar o usuário, verifique as informações enviadas.',
+            'Ocorreu um erro ao atualizar o usuário, verifique as informações enviadas.',
         });
       }
     },
-    [history, addToast],
+    [history, addToast, updateUser],
   );
 
   const handleAvatarChange = useCallback(
@@ -80,13 +110,13 @@ const Profile: React.FC = () => {
         data.append('avatar', e.target.files[0]);
 
         api.patch('/users/avatar', data).then(response => {
-          updateUser(response.data);
+          updateUser(response.data.user);
 
           addToast({ type: 'success', title: 'Avatar alterado com sucesso!' });
         });
       }
     },
-    [addToast],
+    [addToast, updateUser],
   );
 
   return (
