@@ -53,7 +53,7 @@ const Input: React.FC<InputProps> = ({
       isFilled={isFilled}
       data-testid={`input-${name}`}
     >
-      {Icon && <Icon size={20} />}
+      {Icon && <Icon size={20} data-testid={`input-${name}-icon`} />}
       <input
         name={name}
         onFocus={handleInputFocus}

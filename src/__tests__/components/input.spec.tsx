@@ -1,5 +1,6 @@
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import React from 'react';
+import { FiMail } from 'react-icons/fi';
 
 import Input from '../../components/Input';
 
@@ -25,7 +26,7 @@ describe('Input component', () => {
     expect(getByPlaceholderText('E-mail')).toBeTruthy();
   });
 
-  it('should render highlight on input focus', async () => {
+  it('should render highlight on input focus', () => {
     const { getByTestId, getByPlaceholderText } = render(
       <Input name="email" placeholder="E-mail" />,
     );
@@ -36,13 +37,12 @@ describe('Input component', () => {
     fireEvent.focus(inputElement);
 
     waitFor(() => {
-      // Que porra é essa? Se colocar o await não passa nos testes...
       expect(containerElement).toHaveStyle('border-color: #ff9000;');
       expect(containerElement).toHaveStyle('color: #ff9000;');
     });
   });
 
-  it('should be back to normal on input blur', async () => {
+  it('should be back to normal on input blur', () => {
     const { getByTestId, getByPlaceholderText } = render(
       <Input name="email" placeholder="E-mail" />,
     );
@@ -60,7 +60,7 @@ describe('Input component', () => {
     });
   });
 
-  it('should keep border highlighted when filled', async () => {
+  it('should keep border highlighted when filled', () => {
     const { getByTestId, getByPlaceholderText, debug } = render(
       <Input name="email" placeholder="E-mail" />,
     );
@@ -77,5 +77,13 @@ describe('Input component', () => {
     waitFor(() => {
       expect(containerElement).toHaveStyle('color: #ff9000;');
     });
+  });
+
+  it('should include icon', () => {
+    const { getByTestId } = render(
+      <Input name="email" placeholder="E-mail" icon={FiMail} />,
+    );
+
+    expect(getByTestId('input-email-icon')).toBeTruthy();
   });
 });
