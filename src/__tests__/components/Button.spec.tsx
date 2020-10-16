@@ -11,7 +11,7 @@ describe('Button Component', () => {
     expect(buttonElement).toBeTruthy();
   });
 
-  it('should chenge button text when clicked', () => {
+  it('should change button text when clicked', () => {
     const { getByText } = render(
       <Button type="button" loading>
         Ok
