@@ -1,6 +1,7 @@
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor, act } from '@testing-library/react';
 import React from 'react';
 import { FiMail } from 'react-icons/fi';
+import 'jest-styled-components';
 
 import Input from '../../components/Input';
 
@@ -26,20 +27,12 @@ describe('Input component', () => {
     expect(getByPlaceholderText('E-mail')).toBeTruthy();
   });
 
-  it('should render highlight on input focus', () => {
-    const { getByTestId, getByPlaceholderText } = render(
-      <Input name="email" placeholder="E-mail" />,
+  it('should include icon', () => {
+    const { getByTestId } = render(
+      <Input name="email" placeholder="E-mail" icon={FiMail} />,
     );
 
-    const inputElement = getByPlaceholderText('E-mail');
-    const containerElement = getByTestId('input-email');
-
-    fireEvent.focus(inputElement);
-
-    waitFor(() => {
-      expect(containerElement).toHaveStyle('border-color: #ff9000;');
-      expect(containerElement).toHaveStyle('color: #ff9000;');
-    });
+    expect(getByTestId('input-email-icon')).toBeTruthy();
   });
 
   it('should be back to normal on input blur', () => {
@@ -54,10 +47,22 @@ describe('Input component', () => {
 
     fireEvent.blur(inputElement);
 
-    waitFor(() => {
-      expect(containerElement).not.toHaveStyle('border-color: #ff9000;');
-      expect(containerElement).not.toHaveStyle('color: #ff9000;');
-    });
+    expect(containerElement).not.toHaveStyleRule('border-color', '#ff9000');
+    expect(containerElement).not.toHaveStyleRule('color', '#ff9000');
+  });
+
+  it('should render highlight on input focus', () => {
+    const { getByTestId, getByPlaceholderText } = render(
+      <Input name="email" placeholder="E-mail" />,
+    );
+
+    const inputElement = getByPlaceholderText('E-mail');
+    const containerElement = getByTestId('input-email');
+
+    fireEvent.focus(inputElement);
+
+    expect(containerElement).toHaveStyleRule('border-color', '#ff9000');
+    expect(containerElement).toHaveStyleRule('color', '#ff9000');
   });
 
   it('should keep border highlighted when filled', () => {
@@ -66,7 +71,6 @@ describe('Input component', () => {
     );
 
     const inputElement = getByPlaceholderText('E-mail');
-    const containerElement = getByTestId('input-email');
 
     fireEvent.change(inputElement, {
       target: { value: 'johndoe@example.com' },
@@ -74,16 +78,6 @@ describe('Input component', () => {
 
     fireEvent.blur(inputElement);
 
-    waitFor(() => {
-      expect(containerElement).toHaveStyle('color: #ff9000;');
-    });
-  });
-
-  it('should include icon', () => {
-    const { getByTestId } = render(
-      <Input name="email" placeholder="E-mail" icon={FiMail} />,
-    );
-
-    expect(getByTestId('input-email-icon')).toBeTruthy();
+    expect(getByTestId('input-email')).toHaveStyleRule('color', '#ff9000');
   });
 });
