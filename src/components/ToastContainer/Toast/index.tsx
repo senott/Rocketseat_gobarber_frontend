@@ -39,6 +39,7 @@ const Toast: React.FC<ToastProps> = ({ message, style }) => {
       type={message.type}
       hasdescription={Number(!!message.description)}
       style={style}
+      data-testid={`container-toast-${message.id}`}
     >
       {icons[message.type || 'info']}
 
