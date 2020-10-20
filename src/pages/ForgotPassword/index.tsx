@@ -47,7 +47,7 @@ const ForgotPassword: React.FC = () => {
         addToast({
           type: 'success',
           title: 'Recuperação de senha',
-          description: 'E-mail de recuperação de senha eviado com sucesso.'
+          description: 'E-mail de recuperação de senha enviado com sucesso.',
         });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -62,7 +62,7 @@ const ForgotPassword: React.FC = () => {
           type: 'error',
           title: 'Erro na recuperação de senha',
           description:
-            'Ocorreu um erro ao fazer a recuperação de senha, varifique o e-mail informado.',
+            'Ocorreu um erro ao fazer a recuperação de senha, verifique o e-mail informado.',
         });
       } finally {
         setLoading(false);
@@ -81,8 +81,9 @@ const ForgotPassword: React.FC = () => {
 
             <Input name="email" icon={FiMail} placeholder="E-mail" />
 
-            <Button loading={loading} type="submit">Recuperar</Button>
-
+            <Button loading={loading} type="submit">
+              Recuperar
+            </Button>
           </Form>
 
           <Link to="/">

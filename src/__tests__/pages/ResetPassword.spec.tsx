@@ -87,9 +87,6 @@ describe('Reset Password Page', () => {
   });
 
   it('should display error when password reset fails', async () => {
-    // mockedUsersPost.mockImplementation(() => {
-    //   throw new Error();
-    // });
     mockedToken = '';
 
     const { getByPlaceholderText, getByText } = render(<ResetPassword />);
