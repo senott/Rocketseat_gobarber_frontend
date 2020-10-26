@@ -72,8 +72,6 @@ const Profile: React.FC = () => {
 
         const response = await api.put('/profile', formData);
 
-        console.log(response.data.user);
-
         updateUser(response.data.user);
 
         history.push('/dashboard');
@@ -104,7 +102,7 @@ const Profile: React.FC = () => {
 
   const handleAvatarChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files) {
+      if (e.target.files && e.target.files[0]) {
         const data = new FormData();
 
         data.append('avatar', e.target.files[0]);
@@ -138,7 +136,12 @@ const Profile: React.FC = () => {
             <img src={user.avatar_url} alt={user.name} />
             <label htmlFor="avatar">
               <FiCamera />
-              <input type="file" id="avatar" onChange={handleAvatarChange} />
+              <input
+                type="file"
+                id="avatar"
+                onChange={handleAvatarChange}
+                data-testid="avatar"
+              />
             </label>
           </AvatarInput>
 
