@@ -124,7 +124,7 @@ const Dashboard: React.FC = () => {
 
   const nextAppointment = useMemo(() => {
     return appointments.find(appointment =>
-      isAfter(parseISO(appointment.date), new Date()),
+      isAfter(parseISO(appointment.date), new Date(Date.now())),
     );
   }, [appointments]);
 
@@ -144,7 +144,7 @@ const Dashboard: React.FC = () => {
             </div>
           </Profile>
 
-          <button type="button" onClick={signOut}>
+          <button type="button" onClick={signOut} data-testid="signOut">
             <FiPower />
           </button>
         </HeaderContent>
