@@ -99,6 +99,10 @@ jest.spyOn(Date, 'now').mockImplementation(() => {
 });
 
 describe('Dashboard Page', () => {
+  beforeEach(() => {
+    mockedSignOut.mockClear();
+  });
+
   it('should be able to render Dashboard', async () => {
     const { getByText } = render(<Dashboard />, { wrapper: MemoryRouter });
 

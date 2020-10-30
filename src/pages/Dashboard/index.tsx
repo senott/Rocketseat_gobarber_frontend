@@ -38,8 +38,8 @@ interface Appointment {
 }
 
 const Dashboard: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
+  const [currentMonth, setCurrentMonth] = useState(new Date(Date.now()));
   const [daysAvailable, setDaysAvailable] = useState<DayAvailable[]>([]);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 

@@ -30,6 +30,8 @@ jest.mock('../../hooks/auth', () => {
 describe('SignIn Page', () => {
   beforeEach(() => {
     mockedHistoryPush.mockClear();
+    mockedSignIn.mockClear();
+    mockedAddToast.mockClear();
   });
 
   it('should be able to sign in', async () => {

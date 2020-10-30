@@ -33,6 +33,7 @@ describe('SignUp Page', () => {
   beforeEach(() => {
     mockedHistoryPush.mockClear();
     mockedUsersPost.mockClear();
+    mockedAddToast.mockClear();
   });
 
   it('should be able to sign up', async () => {
@@ -59,7 +60,7 @@ describe('SignUp Page', () => {
     });
   });
 
-  it('should not be able to sign up with invalid email', async () => {
+  it('should not be able to sign up with password length minor then 6 characters', async () => {
     const { getByPlaceholderText, getByText } = render(<SignUp />);
 
     const nameField = getByPlaceholderText('Nome');
@@ -82,7 +83,7 @@ describe('SignUp Page', () => {
     });
   });
 
-  it('should not be able to sign up with password length minor then 6 characters', async () => {
+  it('should not be able to sign up with invalid email', async () => {
     const { getByPlaceholderText, getByText } = render(<SignUp />);
 
     const nameField = getByPlaceholderText('Nome');
